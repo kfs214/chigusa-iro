@@ -1,7 +1,10 @@
 export default {
-  type: "object",
+  type: 'object',
   properties: {
-    name: { type: 'string' }
+    from: { type: 'string' },
+    to: { type: 'string' },
+    categories: { type: 'string' },
+    'post-limit': { type: 'string' },
   },
-  required: ['name']
+  required: [],
 } as const;

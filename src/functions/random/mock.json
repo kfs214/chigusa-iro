@@ -2,5 +2,5 @@
   "headers": {
     "Content-Type": "application/json"
   },
-  "body": "{\"name\": \"Frederic\"}"
+  "body": "{ \"from\": \"2022-12-12\", \"to\": \"2022-12-12\", \"categories\": 1, \"post-limit\": 1 }"
 }
