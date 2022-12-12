@@ -1,6 +1,8 @@
 import type { AWS } from '@serverless/typescript';
 
+import date from '@functions/date';
 import hello from '@functions/hello';
+import random from '@functions/random';
 
 const serverlessConfiguration: AWS = {
   service: 'chigusa-iro',
@@ -20,7 +22,7 @@ const serverlessConfiguration: AWS = {
     },
   },
   // import the function via paths
-  functions: { hello },
+  functions: { date, hello, random },
   package: { individually: true },
   custom: {
     esbuild: {
