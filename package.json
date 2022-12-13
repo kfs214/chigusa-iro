@@ -5,6 +5,7 @@
   "main": "serverless.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "sls deploy",
     "invoke:local-date": "serverless invoke local -f date --path src/functions/date/mock.json",
     "invoke:local-hello": "serverless invoke local -f hello --path src/functions/hello/mock.json",
     "invoke:local-random": "serverless invoke local -f random --path src/functions/random/mock.json",

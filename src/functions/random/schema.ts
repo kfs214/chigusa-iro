@@ -2,8 +2,9 @@ export default {
   type: 'object',
   properties: {
     endpoint: { type: 'string' },
-    from: { type: 'string' },
-    to: { type: 'string' },
+    after: { type: 'string' },
+    before: { type: 'string' },
+    // TODO GETだから必ず文字列型になるよね？
     categories: { type: 'string' },
     'post-limit': { type: 'string' },
   },
