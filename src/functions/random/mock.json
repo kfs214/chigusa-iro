@@ -2,5 +2,19 @@
   "headers": {
     "Content-Type": "application/json"
   },
-  "body": "{\"endpoint\":\"https://your.domain/wp-json\",\"after\":\"2020-12-12\",\"before\":\"2022-12-12\",\"categories\":\"1\",\"post-limit\":1}"
+  "body": null,
+  "queryStringParameters": {
+    "after": "2022-01-01",
+    "before": "2022-12-31",
+    "categories": "3",
+    "endpoint": "https://kfs214.net/wp-json",
+    "post-limit": "3"
+  },
+  "multiValueQueryStringParameters": {
+    "after": ["2022-01-01"],
+    "before": ["2022-12-31"],
+    "categories": ["1", "2", "3"],
+    "endpoint": ["https://kfs214.net/wp-json"],
+    "post-limit": ["3"]
+  }
 }

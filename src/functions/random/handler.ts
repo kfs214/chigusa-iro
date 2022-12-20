@@ -9,7 +9,7 @@ type Params = {
   endpointParam: string;
   afterParam?: string;
   beforeParam?: string;
-  categoriesParam?: string;
+  categoriesParam?: string[];
   postLimitParam?: string;
 };
 
@@ -30,10 +30,7 @@ const composeProperties = (params: Params) => {
   // TODO どこまで含める？domainだけ指定すればよいようにするか、wp-jsonまで必須にするか
   const endpoint = isValidURL(endpointParam) ? endpointParam : '';
 
-  const categories = categoriesParam
-    .split(' ')
-    .map((categoryStr) => +categoryStr)
-    .filter((e) => !isNaN(e));
+  const categories = categoriesParam?.map((categoryStr) => +categoryStr)?.filter((e) => !isNaN(e));
 
   const postLimit = isNaN(+postLimitParam) ? 1 : +postLimitParam;
 
@@ -46,12 +43,14 @@ const composeProperties = (params: Params) => {
 
 const random: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
   const {
-    endpoint: endpointParam,
-    after: afterParam,
-    before: beforeParam,
-    categories: categoriesParam,
-    'post-limit': postLimitParam,
-  } = event.body;
+    queryStringParameters: {
+      endpoint: endpointParam,
+      after: afterParam,
+      before: beforeParam,
+      'post-limit': postLimitParam,
+    },
+    multiValueQueryStringParameters: { categories: categoriesParam },
+  } = event;
 
   const { endpoint, categories, postLimit, after, before } = composeProperties({
     endpointParam,
@@ -69,10 +68,7 @@ const random: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) 
     before,
   });
 
-  return formatJSONResponse({
-    posts,
-    event,
-  });
+  return formatJSONResponse({ posts });
 };
 
 export const main = middyfy(random);

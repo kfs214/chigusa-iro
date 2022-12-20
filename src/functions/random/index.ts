@@ -1,4 +1,3 @@
-import schema from './schema';
 import { handlerPath } from '@libs/handler-resolver';
 
 export default {
@@ -9,8 +8,14 @@ export default {
         method: 'get',
         path: 'random',
         request: {
-          schemas: {
-            'application/json': schema,
+          parameters: {
+            querystrings: {
+              endpoint: { required: true },
+              after: true,
+              before: true,
+              categories: true,
+              'post-limit': true,
+            },
           },
         },
       },
