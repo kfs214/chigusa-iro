@@ -16,12 +16,22 @@ type Params = {
 
 const isValidURL = (url: string) => {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const parsedUrl = new URL(url);
+    // eslint-disable-next-line no-new
+    new URL(url);
     return true;
   } catch {
-    console.error('endpoint URL is invalid. ending process...');
+    console.error(errorType.endpointUrlInvalid.errorMessage);
     throw new Error(errorType.endpointUrlInvalid.type);
+  }
+};
+
+const validateDate = (date: string) => {
+  try {
+    // TODO '2022-05-'とかは埋められてしまうので他の方法でチェック
+    new Date(date).toISOString();
+  } catch {
+    console.error(errorType.beforeAfterInvalid.errorMessage);
+    throw new Error(errorType.beforeAfterInvalid.type);
   }
 };
 
@@ -35,11 +45,10 @@ const composeProperties = (params: Params) => {
 
   const postLimit = isNaN(+postLimitParam) ? 1 : +postLimitParam;
 
-  // TODO 日付の型をもっとしっかり
-  const after = new Date(afterParam).toISOString();
-  const before = new Date(beforeParam).toISOString();
+  validateDate(afterParam);
+  validateDate(beforeParam);
 
-  return { endpoint, categories, postLimit, after, before };
+  return { endpoint, categories, postLimit, after: afterParam, before: beforeParam };
 };
 
 const random: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
@@ -79,6 +88,11 @@ const random: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) 
           return {
             statusCode: errorType.endpointUrlInvalid.statusCode,
             body: errorType.endpointUrlInvalid.errorMessage,
+          };
+        case errorType.beforeAfterInvalid.type:
+          return {
+            statusCode: errorType.beforeAfterInvalid.statusCode,
+            body: errorType.beforeAfterInvalid.errorMessage,
           };
       }
     }
