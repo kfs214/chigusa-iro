@@ -48,17 +48,14 @@ export const pickPosts = async (
     title: any;
   }>
 > => {
-  // TODO 仮のdisable
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { endpoint, categories, postLimit, after, before } = args;
   const wp = new WPAPI({ endpoint });
 
   const pickedPostLimit = getPickedPostLimit(postLimit);
   console.log(`up to ${pickedPostLimit} post(s) to be picked`);
 
-  // TODO 期間指定を有効化
   const wpPostsRequest = (categories ? wp.posts().param({ categories }) : wp.posts())
-    // .param({ after, before })
+    .param({ after, before })
     .perPage(1);
 
   // TODO 該当ない場合のハンドリング
