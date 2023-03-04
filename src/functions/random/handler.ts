@@ -45,18 +45,25 @@ const validateDate = (date: string) => {
   }
 };
 
+const parsePostLimitParam = (postLimitParam?: string) => {
+  // nullishな場合は1。0も無効値なので1。
+  if (!postLimitParam) return 1;
+  if (isNaN(+postLimitParam)) return 1;
+  return +postLimitParam;
+};
+
 const composeProperties = (params: Params) => {
   const { endpointParam, afterParam, beforeParam, categoriesParam, postLimitParam } = params;
 
   // バリデーションを行い、1つでも無効な値であれば例外送出して処理終了
   // TODO どこまで含める？domainだけ指定すればよいようにするか、wp-jsonまで必須にするか
   validateURL(endpointParam);
-  validateDate(afterParam);
-  validateDate(beforeParam);
+  afterParam && validateDate(afterParam);
+  beforeParam && validateDate(beforeParam);
 
   const categories = categoriesParam?.map((categoryStr) => +categoryStr)?.filter((e) => !isNaN(e));
 
-  const postLimit = isNaN(+postLimitParam) ? 1 : +postLimitParam;
+  const postLimit = parsePostLimitParam(postLimitParam);
 
   // バリデーション済みであることを明示するために、値が変わらないものもkey名を変更
   return { endpoint: endpointParam, categories, postLimit, after: afterParam, before: beforeParam };
@@ -94,6 +101,7 @@ const random: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) 
   } catch (e: unknown) {
     // TODO エラーハンドリング綺麗に
     // TODO せめてcomposeErrorResponse関数として切り出す？
+    // TODO default
     if (e instanceof Error) {
       switch (e.message) {
         case errorType.endpointUrlInvalid.type:
