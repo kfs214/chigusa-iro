@@ -14,6 +14,12 @@ coming soon...
 npm run invoke:local-random
 ```
 
+## settings
+
+### event type
+
+[Lambda Proxy Integration](https://www.serverless.com/framework/docs/providers/aws/events/apigateway#lambda-proxy-integration)
+
 ## Serverless - AWS Node.js Typescript
 
 This project has been generated using the `aws-nodejs-typescript` template from the [Serverless framework](https://www.serverless.com/).

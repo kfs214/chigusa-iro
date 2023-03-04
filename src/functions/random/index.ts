@@ -10,11 +10,11 @@ export default {
         request: {
           parameters: {
             querystrings: {
-              endpoint: { required: true },
-              after: true,
-              before: true,
-              categories: true,
-              'post-limit': true,
+              endpoint: true,
+              after: false,
+              before: false,
+              categories: false,
+              'post-limit': false,
             },
           },
         },

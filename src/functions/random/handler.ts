@@ -60,6 +60,7 @@ const composeProperties = (params: Params) => {
   afterParam && validateDate(afterParam);
   beforeParam && validateDate(beforeParam);
 
+  // TODO undefined、空配列、空文字等各パターンをテスト
   const categories = categoriesParam?.map((categoryStr) => +categoryStr)?.filter((e) => !isNaN(e));
 
   const postLimit = parsePostLimitParam(postLimitParam);
