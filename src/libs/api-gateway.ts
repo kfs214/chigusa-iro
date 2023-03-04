@@ -1,8 +1,8 @@
 import type { APIGatewayProxyEvent, APIGatewayProxyResult, Handler } from 'aws-lambda';
-import type { FromSchema } from 'json-schema-to-ts';
+import type { FromSchema, JSONSchema } from 'json-schema-to-ts';
 
 // TODO multiValueQueryStringParametersに[x: string]: string[];が含まれてしまう
-type ValidatedAPIGatewayProxyEvent<S> = Omit<
+type ValidatedAPIGatewayProxyEvent<S extends JSONSchema> = Omit<
   APIGatewayProxyEvent,
   'queryStringParameters' | 'multiValueQueryStringParameters' | 'body'
 > & {
@@ -10,7 +10,8 @@ type ValidatedAPIGatewayProxyEvent<S> = Omit<
   multiValueQueryStringParameters: { [key in keyof FromSchema<S>]: string[] };
   body: FromSchema<S>;
 };
-export type ValidatedEventAPIGatewayProxyEvent<S> = Handler<
+
+export type ValidatedEventAPIGatewayProxyEvent<S extends JSONSchema> = Handler<
   ValidatedAPIGatewayProxyEvent<S>,
   APIGatewayProxyResult
 >;

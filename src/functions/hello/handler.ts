@@ -11,4 +11,5 @@ const hello: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) =
   });
 };
 
-export const main = middyfy(hello);
+// サンプルハンドラなので、後々除却
+export const main = middyfy(hello as any);

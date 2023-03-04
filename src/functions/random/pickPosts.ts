@@ -55,7 +55,8 @@ export const pickPosts = async (
   console.log(`up to ${pickedPostLimit} post(s) to be picked`);
 
   const wpPostsRequest = (categories ? wp.posts().param({ categories }) : wp.posts())
-    .param({ after, before })
+    .param('after', after)
+    .param('before', before)
     .perPage(1);
 
   // TODO 該当ない場合のハンドリング

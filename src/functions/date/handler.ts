@@ -11,4 +11,5 @@ const date: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) =>
   });
 };
 
-export const main = middyfy(date);
+// TODO 型定義
+export const main = middyfy(date as any);
