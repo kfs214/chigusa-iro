@@ -2,14 +2,14 @@
 
 ## purpose
 
-pick post(s) from wordpress
+pick post(s) from wordpress.
 
 ## how to use
 
 ### random
 
 `random` function is to pick N posts randomly.\
-It will return an array of posts
+It will return an array of posts.
 
 #### request sample
 
@@ -23,9 +23,9 @@ GET https://${your.endpoint}/random?endpoint=https:/...&post-limit=3&categories=
 | ---------- | ------------------------------------------------------------------------------------- | -------- | --------------------------- |
 | endpoint   | base path to your wpapi                                                               | required | https://your.domain/wp-json |
 | after      | specify to get posts "after" this datetime.                                           | optional | 2017-01-01T00:00:00Z        |
-| before     | specify to get posts "before" this datetime.                                          | optional | 2017-01-01T00:00:00Z        |
+| before     | specify to get posts "before" this datetime.                                          | optional | 2023-01-01T00:00:00Z        |
 | post-limit | maximum posts to be picked                                                            | optional | 3                           |
-| categories | get posts in catetories. without this option, filtering by categories to be disabled. | optional | 3                           |
+| categories | get posts in catetories. without this option, filtering by categories to be disabled. | optional | 1                           |
 
 #### response body sample
 
