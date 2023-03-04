@@ -56,7 +56,6 @@ const composeProperties = (params: Params) => {
   const { endpointParam, afterParam, beforeParam, categoriesParam, postLimitParam } = params;
 
   // バリデーションを行い、1つでも無効な値であれば例外送出して処理終了
-  // TODO どこまで含める？domainだけ指定すればよいようにするか、wp-jsonまで必須にするか
   validateURL(endpointParam);
   afterParam && validateDate(afterParam);
   beforeParam && validateDate(beforeParam);

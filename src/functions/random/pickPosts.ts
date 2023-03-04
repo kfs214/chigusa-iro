@@ -59,10 +59,18 @@ export const pickPosts = async (
     .param('before', before)
     .perPage(1);
 
-  // TODO 該当ない場合のハンドリング
+  const res = await wpPostsRequest.param({ _fields: ['id'] }).get();
+
+  // 該当件数0の場合
+  if (!res.length) {
+    console.log('no posts found.');
+    return [];
+  }
+
+  // 該当件数1件以上の場合、件数を読み取って代入
   const {
     _paging: { total: totalPosts },
-  } = await wpPostsRequest.param({ _fields: ['id'] }).get();
+  } = res;
   console.log('matched posts:', totalPosts);
 
   const pickedOffsets = getPickedOffsets(totalPosts, pickedPostLimit);
