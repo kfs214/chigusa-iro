@@ -155,4 +155,5 @@ const random: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) 
   }
 };
 
-export const main = middyfy(random);
+// TODO 型定義
+export const main = middyfy(random as any);
