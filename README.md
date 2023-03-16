@@ -1,32 +1,17 @@
 # CHIgusa-iro(#3A8FB7)
 
-## purpose
+## Purpose
 
-pick post(s) from wordpress
+Pick post(s) from wordpress.
 
-## how to use
+## Directories
 
-coming soon...
+### gas-batch
 
-## invoke:local
+Batch program running on GAS.
 
-```sh
-npm run invoke:local-random
-```
+### lambda-api
 
-## settings
-
-### event type
-
-[Lambda Proxy Integration](https://www.serverless.com/framework/docs/providers/aws/events/apigateway#lambda-proxy-integration)
-
-## Serverless - AWS Node.js Typescript
-
-This project has been generated using the `aws-nodejs-typescript` template from the [Serverless framework](https://www.serverless.com/).
-
-For detailed instructions, please refer to the [documentation](https://www.serverless.com/framework/docs/providers/aws/).
-
-<!-- TODO Run a TypeScript type check in your pre-commit hook using lint-staged + husky -->
-<!-- TODO unit test -->
-<!-- TODO refactor and clear TODOs -->
-<!-- TODO add function 'date' -->
+API to pick post(s) from wpapi.  
+Running on AWS lambda.  
+To be called from `gas-batch`

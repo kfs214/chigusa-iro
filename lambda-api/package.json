@@ -9,7 +9,18 @@
     "invoke:local-date": "serverless invoke local -f date --path src/functions/date/mock.json",
     "invoke:local-hello": "serverless invoke local -f hello --path src/functions/hello/mock.json",
     "invoke:local-random": "serverless invoke local -f random --path src/functions/random/mock.json",
-    "eslint": "eslint --fix src"
+    "eslint": "eslint --fix src",
+    "prettier": "prettier --write src/**/*.ts",
+    "typecheck": "tsc --noEmit",
+    "lint-staged": "lint-staged",
+    "lint": "npm run typecheck && npm run eslint && npm run prettier",
+    "prepare": "cd .. && husky install lambda-api/.config/husky"
+  },
+  "lint-staged": {
+    "src/**/*.ts": [
+      "npm run lint",
+      "git add"
+    ]
   },
   "engines": {
     "node": ">=14.15.0"
@@ -32,7 +43,9 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-n": "^15.3.0",
     "eslint-plugin-promise": "^6.1.1",
+    "husky": "^8.0.3",
     "json-schema-to-ts": "^1.5.0",
+    "lint-staged": "^13.2.0",
     "prettier": "^2.7.1",
     "serverless": "^3.0.0",
     "serverless-esbuild": "^1.23.3",

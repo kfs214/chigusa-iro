@@ -1,0 +1,11 @@
+# env
+.clasp.json
+
+# dist
+index.js
+
+# Dependency directory
+node_modules
+
+# OS metadata
+.DS_Store
