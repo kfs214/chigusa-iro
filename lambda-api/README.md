@@ -78,5 +78,6 @@ This project has been generated using the `aws-nodejs-typescript` template from 
 For detailed instructions, please refer to the [documentation](https://www.serverless.com/framework/docs/providers/aws/).
 
 <!-- TODO unit test -->
+<!-- TODO lint-staged の prettier で対象外になっているファイルがある -->
 <!-- TODO refactor and clear TODOs -->
 <!-- TODO add function 'date' -->
