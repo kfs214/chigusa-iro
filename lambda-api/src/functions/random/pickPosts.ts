@@ -1,4 +1,4 @@
-import WPAPI from 'wpapi';
+import WPAPI from "wpapi";
 
 type PickPostsArgs = {
   endpoint: string;
@@ -20,7 +20,10 @@ const getPickedPostLimit = (inputPostLimit?: number): number => {
   return inputPostLimit;
 };
 
-const getPickedOffsets = (totalPosts: number, length: number): number[] => {
+export const getPickedOffsets = (
+  totalPosts: number,
+  length: number
+): number[] => {
   const candidates = [...Array(totalPosts).keys()];
 
   if (totalPosts <= length) {
@@ -54,16 +57,18 @@ export const pickPosts = async (
   const pickedPostLimit = getPickedPostLimit(postLimit);
   console.log(`up to ${pickedPostLimit} post(s) to be picked`);
 
-  const wpPostsRequest = (categories ? wp.posts().param({ categories }) : wp.posts())
-    .param('after', after)
-    .param('before', before)
+  const wpPostsRequest = (
+    categories ? wp.posts().param({ categories }) : wp.posts()
+  )
+    .param("after", after)
+    .param("before", before)
     .perPage(1);
 
-  const res = await wpPostsRequest.param({ _fields: ['id'] }).get();
+  const res = await wpPostsRequest.param({ _fields: ["id"] }).get();
 
   // 該当件数0の場合
   if (!res.length) {
-    console.log('no posts found.');
+    console.log("no posts found.");
     return [];
   }
 
@@ -71,7 +76,7 @@ export const pickPosts = async (
   const {
     _paging: { total: totalPosts },
   } = res;
-  console.log('matched posts:', totalPosts);
+  console.log("matched posts:", totalPosts);
 
   const pickedOffsets = getPickedOffsets(totalPosts, pickedPostLimit);
 
@@ -79,7 +84,7 @@ export const pickPosts = async (
     pickedOffsets.map(
       async (pickedOffset) =>
         await wpPostsRequest
-          .param({ _fields: ['title', 'link'] })
+          .param({ _fields: ["title", "link"] })
           .offset(pickedOffset)
           .get()
           .catch((e) => {
