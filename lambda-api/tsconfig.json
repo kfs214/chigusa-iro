@@ -10,7 +10,8 @@
     "removeComments": true,
     "sourceMap": true,
     "target": "ES2022",
-    "outDir": "lib"
+    "outDir": "lib",
+    "skipLibCheck": true
   },
   "include": ["src/**/*.ts", "serverless.ts"],
   "exclude": [

@@ -9,7 +9,16 @@
     "invoke:local-date": "serverless invoke local -f date --path src/functions/date/mock.json",
     "invoke:local-hello": "serverless invoke local -f hello --path src/functions/hello/mock.json",
     "invoke:local-random": "serverless invoke local -f random --path src/functions/random/mock.json",
-    "eslint": "eslint --fix src"
+    "eslint": "eslint --fix src",
+    "typecheck": "tsc --noEmit",
+    "lint": "npm run typecheck && npm run eslint",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "src/**/*.ts": [
+      "npm run lint",
+      "git add"
+    ]
   },
   "engines": {
     "node": ">=14.15.0"
@@ -33,6 +42,7 @@
     "eslint-plugin-n": "^15.3.0",
     "eslint-plugin-promise": "^6.1.1",
     "json-schema-to-ts": "^1.5.0",
+    "lint-staged": "^13.2.0",
     "prettier": "^2.7.1",
     "serverless": "^3.0.0",
     "serverless-esbuild": "^1.23.3",
