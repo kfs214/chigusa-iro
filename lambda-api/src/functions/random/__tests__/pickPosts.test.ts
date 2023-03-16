@@ -20,21 +20,42 @@ describe("getPickedOffsets", () => {
   });
 
   describe("totalPosts > length", () => {
-    let result: number[] = [];
+    describe("totalPosts: 10 / length: 9", () => {
+      let result: number[] = [];
 
-    const totalPosts = 10;
-    const length = 3;
+      const totalPosts = 10;
+      const length = 9;
 
-    beforeAll(() => {
-      result = getPickedOffsets(totalPosts, length);
+      beforeAll(() => {
+        result = getPickedOffsets(totalPosts, length);
+      });
+
+      it("has specified length", () => {
+        expect(result).toHaveLength(length);
+      });
+
+      it("has no duplicate", () => {
+        expect(new Set(result).size).toBe(result.length);
+      });
     });
 
-    it("has specified length", () => {
-      expect(result).toHaveLength(length);
-    });
+    describe("totalPosts: 500 / length: 50", () => {
+      let result: number[] = [];
 
-    it("has no duplicate", () => {
-      expect(new Set(result).size).toBe(result.length);
+      const totalPosts = 10;
+      const length = 9;
+
+      beforeAll(() => {
+        result = getPickedOffsets(totalPosts, length);
+      });
+
+      it("has specified length", () => {
+        expect(result).toHaveLength(length);
+      });
+
+      it("has no duplicate", () => {
+        expect(new Set(result).size).toBe(result.length);
+      });
     });
   });
 });

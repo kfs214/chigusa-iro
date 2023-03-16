@@ -35,7 +35,7 @@ export const getPickedOffsets = (
 
   [...Array(length)].forEach(() => {
     const randomIndex = Math.floor(Math.random() * candidates.length);
-    const [pickedItem] = candidates.splice(randomIndex);
+    const [pickedItem] = candidates.splice(randomIndex, 1);
 
     pickedOffsets.push(pickedItem);
   });
