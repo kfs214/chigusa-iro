@@ -11,7 +11,12 @@
     "sourceMap": true,
     "target": "ES2022",
     "outDir": "lib",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "@/*": ["./src/*"],
+      "@libs/*": ["./src/libs/*"],
+      "@functions/*": ["./src/functions/*"]
+    }
   },
   "include": ["src/**/*.ts", "serverless.ts"],
   "exclude": [
