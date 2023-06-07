@@ -6,14 +6,14 @@
   "queryStringParameters": {
     "after": "2022-01-01T00:00:00Z",
     "before": "2022-12-31T00:00:00Z",
-    "categories": "3",
+    "categories": "19",
     "endpoint": "https://kfs214.net/wp-json",
     "post-limit": "3"
   },
   "multiValueQueryStringParameters": {
     "after": ["2022-01-01T00:00:00Z"],
     "before": ["2022-12-31T00:00:00Z"],
-    "categories": ["1", "2", "3"],
+    "categories": ["1", "2", "19"],
     "endpoint": ["https://kfs214.net/wp-json"],
     "post-limit": ["3"]
   }
