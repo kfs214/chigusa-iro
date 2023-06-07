@@ -1,12 +1,16 @@
 import { formatJSONResponse } from "@libs/api-gateway";
 
-import type { ValidatedEventAPIGatewayProxyEvent } from "@libs/api-gateway";
 import { middyfy } from "@libs/lambda";
-import schema from "./schema";
+import { settingsToDateStrings } from "./settingsToDates";
+import { DateEventHandler } from "./types";
 
-const date: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
-  event
-) => {
+const date: DateEventHandler = async (event) => {
+  const { endpoint, categories, settings } = event.body;
+
+  const publishedDates = settingsToDateStrings(settings);
+  console.log("publishedDates", publishedDates);
+  console.log("endpoint", endpoint);
+  console.log("categories", categories);
   return formatJSONResponse({
     event,
   });

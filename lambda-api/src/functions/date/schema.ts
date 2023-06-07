@@ -7,7 +7,7 @@ export default {
     categories: {
       type: "array",
       items: {
-        type: "integer",
+        type: "string",
       },
     },
     settings: {

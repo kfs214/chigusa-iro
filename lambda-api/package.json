@@ -28,6 +28,7 @@
   "dependencies": {
     "@middy/core": "3.4.0",
     "@middy/http-json-body-parser": "3.4.0",
+    "dayjs": "1.11.8",
     "wpapi": "1.2.2"
   },
   "devDependencies": {
