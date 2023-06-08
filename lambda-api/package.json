@@ -12,15 +12,8 @@
     "eslint": "eslint --fix src",
     "prettier": "prettier --write src/**/*.ts",
     "typecheck": "tsc --noEmit",
-    "lint-staged": "lint-staged",
     "lint": "npm run typecheck && npm run eslint && npm run prettier",
     "prepare": "cd .. && husky install lambda-api/.config/husky"
-  },
-  "lint-staged": {
-    "src/**/*.ts": [
-      "npm run lint",
-      "git add"
-    ]
   },
   "engines": {
     "node": ">=14.15.0"
