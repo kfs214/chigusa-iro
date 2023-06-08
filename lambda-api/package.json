@@ -7,10 +7,9 @@
     "test": "jest",
     "deploy": "sls deploy",
     "invoke:local-date": "serverless invoke local -f date --path src/functions/date/mock.json",
-    "invoke:local-hello": "serverless invoke local -f hello --path src/functions/hello/mock.json",
     "invoke:local-random": "serverless invoke local -f random --path src/functions/random/mock.json",
-    "eslint": "eslint --fix src",
-    "prettier": "prettier --write src/**/*.ts",
+    "eslint": "eslint --fix src serverless.ts",
+    "prettier": "prettier --write src/**/*.ts serverless.ts",
     "typecheck": "tsc --noEmit",
     "lint": "npm run typecheck && npm run eslint && npm run prettier",
     "prepare": "cd .. && husky install lambda-api/.config/husky"
