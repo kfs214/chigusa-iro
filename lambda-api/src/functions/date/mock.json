@@ -2,5 +2,5 @@
   "headers": {
     "Content-Type": "application/json"
   },
-  "body": "{\"endpoint\":\"https://kfs214.net/wp-json\",\"categories\":[\"1\",\"2\",\"19\"],\"settings\":[{\"duration\":{\"value\":1,\"unit\":\"year\"},\"offset\":{\"value\":1,\"unit\":\"month\",\"direction\":\"after\"}},{\"duration\":{\"value\":2,\"unit\":\"month\"},\"offset\":{\"value\":2,\"unit\":\"day\",\"direction\":\"before\"}},{\"duration\":{\"value\":100,\"unit\":\"day\"}}]}\n"
+  "body": "{\"endpoint\":\"https://kfs214.net/wp-json\",\"categories\":[1,2,19],\"settings\":[{\"duration\":{\"value\":1,\"unit\":\"year\"},\"offset\":{\"value\":1,\"unit\":\"month\",\"direction\":\"after\"}},{\"duration\":{\"value\":2,\"unit\":\"month\"},\"offset\":{\"value\":2,\"unit\":\"day\",\"direction\":\"before\"}},{\"duration\":{\"value\":100,\"unit\":\"day\"}}]}"
 }

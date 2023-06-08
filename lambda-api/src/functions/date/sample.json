@@ -1,6 +1,6 @@
 {
   "endpoint": "https://kfs214.net/wp-json",
-  "categories": ["1", "2", "19"],
+  "categories": [1, 2, 19],
   "settings": [
     {
       "duration": { "value": 1, "unit": "year" },
