@@ -1,14 +1,15 @@
 // TODO 型定義
-import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
-import { formatJSONResponse } from '@libs/api-gateway';
-import { middyfy } from '@libs/lambda';
+import type { ValidatedEventAPIGatewayProxyEvent } from "@libs/api-gateway";
+import { formatJSONResponse } from "@libs/api-gateway";
+import { middyfy } from "@libs/lambda";
 
-import { serverResponseCode, wpAPIRequestParam } from '../../consts/consts';
-import { errorType } from '../../consts/errorType';
-import { wpAPIReturnedError } from '../../consts/message';
-import { WPError } from '../../type';
-import schema from './schema';
-import { pickPosts } from './pickPosts';
+import { serverResponseCode, wpAPIRequestParam } from "../../consts/consts";
+import { errorType } from "../../consts/errorType";
+import { wpAPIReturnedError } from "../../consts/message";
+import { WPError } from "../../type";
+import { pickPosts } from "./pickPosts";
+import schema from "./schema";
+import { validateURL, parseCategories } from "@/util";
 
 type Params = {
   endpointParam: string;
@@ -18,23 +19,14 @@ type Params = {
   postLimitParam?: string;
 };
 
-const validateURL = (url: string) => {
-  try {
-    // eslint-disable-next-line no-new
-    new URL(url);
-  } catch {
-    console.error(errorType.endpointUrlInvalid.errorMessage);
-    throw new Error(errorType.endpointUrlInvalid.type);
-  }
-};
-
 const validateDate = (date: string) => {
-  const validDateTimeRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d)?\d*Z?$/;
+  const validDateTimeRegex =
+    /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d)?\d*Z?$/;
 
   try {
     // yyyy-MM-ddTHH:mm:ss(+小数点以下) 形式でない場合は例外送出
     if (!validDateTimeRegex.test(date)) {
-      throw new Error('');
+      throw new Error("");
     }
 
     // Invalid Dateの場合に例外送出
@@ -53,41 +45,54 @@ const parsePostLimitParam = (postLimitParam?: string) => {
 };
 
 const composeProperties = (params: Params) => {
-  const { endpointParam, afterParam, beforeParam, categoriesParam, postLimitParam } = params;
+  const {
+    endpointParam,
+    afterParam,
+    beforeParam,
+    categoriesParam,
+    postLimitParam,
+  } = params;
 
   // バリデーションを行い、1つでも無効な値であれば例外送出して処理終了
   validateURL(endpointParam);
   afterParam && validateDate(afterParam);
   beforeParam && validateDate(beforeParam);
 
-  // TODO undefined、空配列、空文字等各パターンをテスト
-  const categories = categoriesParam?.map((categoryStr) => +categoryStr)?.filter((e) => !isNaN(e));
-
+  const categories = parseCategories(categoriesParam);
   const postLimit = parsePostLimitParam(postLimitParam);
 
   // バリデーション済みであることを明示するために、値が変わらないものもkey名を変更
-  return { endpoint: endpointParam, categories, postLimit, after: afterParam, before: beforeParam };
+  return {
+    endpoint: endpointParam,
+    categories,
+    postLimit,
+    after: afterParam,
+    before: beforeParam,
+  };
 };
 
-const random: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
+const random: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
+  event
+) => {
   try {
     const {
       queryStringParameters: {
         endpoint: endpointParam,
         after: afterParam,
         before: beforeParam,
-        'post-limit': postLimitParam,
+        "post-limit": postLimitParam,
       },
       multiValueQueryStringParameters: { categories: categoriesParam },
     } = event;
 
-    const { endpoint, categories, postLimit, after, before } = composeProperties({
-      endpointParam,
-      afterParam,
-      beforeParam,
-      categoriesParam,
-      postLimitParam,
-    });
+    const { endpoint, categories, postLimit, after, before } =
+      composeProperties({
+        endpointParam,
+        afterParam,
+        beforeParam,
+        categoriesParam,
+        postLimitParam,
+      });
 
     const posts = await pickPosts({
       endpoint,
@@ -120,7 +125,7 @@ const random: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) 
     // WP APIからのエラーレスポンスをハンドリング
     // TODO 適切に切り出せば早期リターンできるのでは
     if (
-      typeof (e as any).code === 'string' &&
+      typeof (e as any).code === "string" &&
       (e as any).data?.details &&
       (e as any).data?.params
     ) {
@@ -131,8 +136,13 @@ const random: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) 
       const isBeforeAfterInvalid =
         !!params &&
         Object.keys(params).some((paramKey) => {
-          if (paramKey === wpAPIRequestParam.AFTER || paramKey === wpAPIRequestParam.BEFORE) {
-            return details?.[paramKey]?.code === serverResponseCode.REST_INVALID_DATE;
+          if (
+            paramKey === wpAPIRequestParam.AFTER ||
+            paramKey === wpAPIRequestParam.BEFORE
+          ) {
+            return (
+              details?.[paramKey]?.code === serverResponseCode.REST_INVALID_DATE
+            );
           }
 
           return false;

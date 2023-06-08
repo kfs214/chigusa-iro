@@ -1,13 +1,21 @@
-import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
-import { formatJSONResponse } from '@libs/api-gateway';
-import { middyfy } from '@libs/lambda';
+import { formatJSONResponse } from "@libs/api-gateway";
 
-import schema from './schema';
+import { middyfy } from "@libs/lambda";
+import { pickPosts } from "./pickPosts";
+import { settingsToDateStrings } from "./settingsToDates";
+import { DateEventHandler } from "./types";
 
-const date: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
+const date: DateEventHandler = async (event) => {
+  const { endpoint, categories, settings } = event.body;
+
+  const publishedDates = settingsToDateStrings(settings);
+  const posts = await pickPosts({ endpoint, categories, publishedDates });
+
+  if (posts.length === 0) console.log("no posts found.");
+
+  // TODO エラーハンドリング
   return formatJSONResponse({
-    message: `date: Hello ${event.body.name}, welcome to the exciting Serverless world!`,
-    event,
+    posts,
   });
 };
 

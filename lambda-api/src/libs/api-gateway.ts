@@ -6,7 +6,7 @@ import type {
 import type { FromSchema, JSONSchema } from "json-schema-to-ts";
 
 // TODO multiValueQueryStringParametersに[x: string]: string[];が含まれてしまう
-type ValidatedAPIGatewayProxyEvent<S extends JSONSchema> = Omit<
+export type ValidatedAPIGatewayProxyEvent<S extends JSONSchema> = Omit<
   APIGatewayProxyEvent,
   "queryStringParameters" | "multiValueQueryStringParameters" | "body"
 > & {
