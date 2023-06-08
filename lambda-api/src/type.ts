@@ -21,3 +21,8 @@ export type WPError = {
   message?: string;
   data?: WPErrorData;
 };
+
+export type Post = {
+  link: string;
+  title: string;
+};

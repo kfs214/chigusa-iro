@@ -1,4 +1,5 @@
 import WPAPI from "wpapi";
+import { Post } from "@/type";
 
 type PickPostsArgs = {
   endpoint: string;
@@ -43,14 +44,7 @@ export const getPickedOffsets = (
   return pickedOffsets;
 };
 
-export const pickPosts = async (
-  args: PickPostsArgs
-): Promise<
-  Array<{
-    link: any;
-    title: any;
-  }>
-> => {
+export const pickPosts = async (args: PickPostsArgs): Promise<Post[]> => {
   const { endpoint, categories, postLimit, after, before } = args;
   const wp = new WPAPI({ endpoint });
 
@@ -93,6 +87,7 @@ export const pickPosts = async (
     )
   );
 
+  // TODO any型で推論されているのにエラーが出ないのはおかしい
   return posts
     .filter((e) => e)
     .map(
