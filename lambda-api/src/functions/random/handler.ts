@@ -9,7 +9,7 @@ import { wpAPIReturnedError } from "../../consts/message";
 import { WPError } from "../../type";
 import { pickPosts } from "./pickPosts";
 import schema from "./schema";
-import { validateURL } from "@/util";
+import { validateURL, parseCategories } from "@/util";
 
 type Params = {
   endpointParam: string;
@@ -58,11 +58,7 @@ const composeProperties = (params: Params) => {
   afterParam && validateDate(afterParam);
   beforeParam && validateDate(beforeParam);
 
-  // TODO undefined、空配列、空文字等各パターンをテスト
-  const categories = categoriesParam
-    ?.map((categoryStr) => +categoryStr)
-    ?.filter((e) => !isNaN(e));
-
+  const categories = parseCategories(categoriesParam);
   const postLimit = parsePostLimitParam(postLimitParam);
 
   // バリデーション済みであることを明示するために、値が変わらないものもkey名を変更
