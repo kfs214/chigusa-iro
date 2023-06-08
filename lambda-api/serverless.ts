@@ -1,6 +1,6 @@
+import date from "@functions/date";
 import random from "@functions/random";
 import type { AWS } from "@serverless/typescript";
-import date from "@functions/date";
 
 const serverlessConfiguration: AWS = {
   service: "chigusa-iro",
