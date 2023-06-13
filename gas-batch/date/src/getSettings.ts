@@ -1,14 +1,3 @@
-type Unit = "year" | "month" | "day";
-type Direction = "after" | "before";
-
-type Duration = { value: number; unit: Unit };
-type Offset = { value: number; unit: Unit; direction: Direction };
-
-type Setting = {
-  duration: Duration;
-  offset?: Offset;
-};
-
 type Row = [number | "", Unit | "", number | "", Unit | "", Direction | ""];
 
 const SETTINGS = "__SETTINGS__";
@@ -54,7 +43,7 @@ function parseRow(row: Row): Setting | undefined {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function parseSettings(): Setting[] {
+function getSettings(): Setting[] {
   const settingsSheet =
     SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SETTINGS);
 
