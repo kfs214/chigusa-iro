@@ -5,8 +5,17 @@ module.exports = {
   },
   extends: ["standard-with-typescript", "prettier"],
   overrides: [],
+  parser: "@typescript-eslint/parser",
   parserOptions: {
-    project: "./tsconfig.json",
+    project: "./tsconfig.eslint.json",
   },
-  rules: {},
+  rules: {
+    "@typescript-eslint/consistent-type-definitions": ["error", "type"],
+    "@typescript-eslint/strict-boolean-expressions": [
+      "warn",
+      {
+        allowNullableObject: true,
+      },
+    ],
+  },
 };
