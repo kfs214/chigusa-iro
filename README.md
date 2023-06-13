@@ -8,7 +8,7 @@ Pick post(s) from wordpress.
 
 ### gas-batch
 
-Batch program running on GAS.
+Batch programs running on GAS.
 
 ### lambda-api
 
