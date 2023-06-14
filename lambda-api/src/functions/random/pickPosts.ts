@@ -1,5 +1,6 @@
 import WPAPI from "wpapi";
-import { Post } from "@/type";
+import { Post, WPPost } from "@/type";
+import { parsePosts } from "@/util";
 
 type PickPostsArgs = {
   endpoint: string;
@@ -77,25 +78,15 @@ export const pickPosts = async (args: PickPostsArgs): Promise<Post[]> => {
   const posts = await Promise.all(
     pickedOffsets.map(
       async (pickedOffset) =>
-        await wpPostsRequest
-          .param({ _fields: ["title", "link"] })
+        (await wpPostsRequest
+          .param({ _fields: ["title", "link", "excerpt"] })
           .offset(pickedOffset)
           .get()
           .catch((e) => {
             console.error(e);
-          })
+          })) as WPPost[] | undefined
     )
   );
 
-  // TODO any型で推論されているのにエラーが出ないのはおかしい
-  return posts
-    .filter((e) => e)
-    .map(
-      ([
-        {
-          link,
-          title: { rendered },
-        },
-      ]) => ({ link, title: rendered })
-    );
+  return parsePosts(posts);
 };

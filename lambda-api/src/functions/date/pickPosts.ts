@@ -1,5 +1,6 @@
 import WPAPI from "wpapi";
-import { Post } from "@/type";
+import { Post, WPPost } from "@/type";
+import { parsePosts } from "@/util";
 
 type PickPostCommonArgs = {
   endpoint: string;
@@ -21,11 +22,14 @@ const pickPost = async (args: PickPostArgs) => {
   const after = `${publishedDate}T00:00:00`;
   const before = `${publishedDate}T23:59:59`;
 
-  return await (categories ? wp.posts().param({ categories }) : wp.posts())
+  return (await (categories ? wp.posts().param({ categories }) : wp.posts())
     .param("after", after)
     .param("before", before)
-    .param({ _fields: ["title", "link"] })
-    .get();
+    .param({ _fields: ["title", "link", "excerpt"] })
+    .get()
+    .catch((e) => {
+      console.error(e);
+    })) as WPPost[] | undefined;
 };
 
 export const pickPosts = async (args: PickPostsArgs): Promise<Post[]> => {
@@ -39,14 +43,5 @@ export const pickPosts = async (args: PickPostsArgs): Promise<Post[]> => {
   );
 
   // TODO 同日に2件投稿されていた場合は1件目のみ取得されるので、必要であれば対応。
-  return posts
-    .filter((e) => e && e.length > 0)
-    .map(
-      ([
-        {
-          link,
-          title: { rendered },
-        },
-      ]) => ({ link, title: rendered })
-    );
+  return parsePosts(posts);
 };

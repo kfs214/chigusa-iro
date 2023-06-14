@@ -58,11 +58,13 @@ GET https://${your.endpoint}/random?endpoint=https:/...&post-limit=3&categories=
   "posts": [
     {
       "link": "https://link.to.post1",
-      "title": "rendered title1"
+      "title": "rendered title1",
+      "excerpt": "excerpt / excerpt / excerpt"
     },
     {
       "link": "https://link.to.post2",
-      "title": "rendered title2"
+      "title": "rendered title2",
+      "excerpt": "excerpt / excerpt / excerpt"
     }
   ]
 }
