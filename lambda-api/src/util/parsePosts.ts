@@ -9,7 +9,7 @@ function formatURI(uri: string) {
   }
 }
 
-function parsePost([post]: WPPost[]): Post {
+export function parsePost([post]: WPPost[]): Post {
   const { link, title, excerpt } = post;
 
   const decodedLink = formatURI(link);

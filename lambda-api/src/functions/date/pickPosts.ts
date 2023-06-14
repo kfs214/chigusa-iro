@@ -1,6 +1,7 @@
 import WPAPI from "wpapi";
-import { Post, WPPost } from "@/type";
-import { parsePosts } from "@/util";
+import { ParsedSetting, PostWithSetting } from "./types";
+import { WPPost } from "@/type";
+import { parsePost } from "@/util";
 
 type PickPostCommonArgs = {
   endpoint: string;
@@ -8,37 +9,52 @@ type PickPostCommonArgs = {
 };
 
 type PickPostArgs = {
-  publishedDate: string;
+  parsedSetting: ParsedSetting;
 } & PickPostCommonArgs;
 
 type PickPostsArgs = {
-  publishedDates: string[];
+  parsedSettings: ParsedSetting[];
 } & PickPostCommonArgs;
 
-const pickPost = async (args: PickPostArgs): Promise<WPPost[]> => {
-  const { endpoint, categories, publishedDate } = args;
+const pickPost = async (
+  args: PickPostArgs
+): Promise<PostWithSetting | undefined> => {
+  const { endpoint, categories, parsedSetting } = args;
+  const { publishedDateStr, ...reqSettings } = parsedSetting;
+
   const wp = new WPAPI({ endpoint });
 
-  const after = `${publishedDate}T00:00:00`;
-  const before = `${publishedDate}T23:59:59`;
+  const after = `${publishedDateStr}T00:00:00`;
+  const before = `${publishedDateStr}T23:59:59`;
 
-  return await ((categories ? wp.posts().param({ categories }) : wp.posts())
+  const wpPost = await ((categories
+    ? wp.posts().param({ categories })
+    : wp.posts()
+  )
     .param("after", after)
     .param("before", before)
     .param({ _fields: ["title", "link", "excerpt"] })
     .get() as Promise<WPPost[]>);
+
+  if (wpPost.length === 0) return undefined;
+
+  const post = parsePost(wpPost);
+
+  return { post, setting: reqSettings };
 };
 
-export const pickPosts = async (args: PickPostsArgs): Promise<Post[]> => {
-  const { endpoint, categories, publishedDates } = args;
+export const pickPosts = async (
+  args: PickPostsArgs
+): Promise<PostWithSetting[]> => {
+  const { endpoint, categories, parsedSettings } = args;
 
-  const posts = await Promise.all(
-    publishedDates.map(
-      async (publishedDate) =>
-        await pickPost({ endpoint, categories, publishedDate })
+  // TODO 同日に2件投稿されていた場合は1件目のみ取得されるので、必要であれば対応。
+  const postsWithSetting = await Promise.all(
+    parsedSettings.map(
+      async (parsedSetting) =>
+        await pickPost({ endpoint, categories, parsedSetting })
     )
   );
 
-  // TODO 同日に2件投稿されていた場合は1件目のみ取得されるので、必要であれば対応。
-  return parsePosts(posts);
+  return postsWithSetting.filter((e) => e) as PostWithSetting[];
 };
