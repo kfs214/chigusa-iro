@@ -1,10 +1,12 @@
+import { decode } from "html-entities";
 import { Post, WPPost } from "@/type";
 
 function parsePost([post]: WPPost[]): Post {
   const { link, title, excerpt } = post;
-  const formattedExcerpt = excerpt.rendered.replace(/<.*?>/g, "");
+  const excerptText = excerpt.rendered.replace(/<.*?>/g, "");
+  const decodedExcerpt = decode(excerptText);
 
-  return { link, title: title.rendered, excerpt: formattedExcerpt };
+  return { link, title: title.rendered, excerpt: decodedExcerpt };
 }
 
 export function parsePosts(posts: Array<WPPost[] | undefined>): Post[] {
