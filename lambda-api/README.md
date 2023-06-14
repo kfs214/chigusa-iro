@@ -29,6 +29,8 @@ It is designed to run on AWS Lambda and can be called from [gas-batch](../gas-ba
 
 ## Common Response Sample
 
+<!-- TODO Content-Type: application/json -->
+
 ```json
 {
   "posts": [

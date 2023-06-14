@@ -3,3 +3,5 @@
 
 npx lint-staged
 npx depcheck gas-batch/date --ignores="@types/google-apps-script"
+
+# TODO ignores を設定ファイルにまとめ
