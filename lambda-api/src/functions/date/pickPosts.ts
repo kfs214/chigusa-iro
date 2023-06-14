@@ -15,21 +15,18 @@ type PickPostsArgs = {
   publishedDates: string[];
 } & PickPostCommonArgs;
 
-const pickPost = async (args: PickPostArgs) => {
+const pickPost = async (args: PickPostArgs): Promise<WPPost[]> => {
   const { endpoint, categories, publishedDate } = args;
   const wp = new WPAPI({ endpoint });
 
   const after = `${publishedDate}T00:00:00`;
   const before = `${publishedDate}T23:59:59`;
 
-  return (await (categories ? wp.posts().param({ categories }) : wp.posts())
+  return await ((categories ? wp.posts().param({ categories }) : wp.posts())
     .param("after", after)
     .param("before", before)
     .param({ _fields: ["title", "link", "excerpt"] })
-    .get()
-    .catch((e) => {
-      console.error(e);
-    })) as WPPost[] | undefined;
+    .get() as Promise<WPPost[]>);
 };
 
 export const pickPosts = async (args: PickPostsArgs): Promise<Post[]> => {

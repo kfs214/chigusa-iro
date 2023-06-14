@@ -20,8 +20,8 @@ function parsePost([post]: WPPost[]): Post {
   return { link: decodedLink, title: title.rendered, excerpt: decodedExcerpt };
 }
 
-export function parsePosts(posts: Array<WPPost[] | undefined>): Post[] {
-  const filteredPosts = posts.filter((e) => e && e.length > 0) as WPPost[][];
+export function parsePosts(posts: WPPost[][]): Post[] {
+  const filteredPosts = posts.filter((e) => e && e.length > 0);
 
-  return filteredPosts.filter((e) => e).map(parsePost);
+  return filteredPosts.map(parsePost);
 }

@@ -81,10 +81,7 @@ export const pickPosts = async (args: PickPostsArgs): Promise<Post[]> => {
         (await wpPostsRequest
           .param({ _fields: ["title", "link", "excerpt"] })
           .offset(pickedOffset)
-          .get()
-          .catch((e) => {
-            console.error(e);
-          })) as WPPost[] | undefined
+          .get()) as WPPost[]
     )
   );
 
