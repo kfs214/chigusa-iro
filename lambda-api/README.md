@@ -120,10 +120,12 @@ POST https://${your.endpoint}/date
 
 ```json
 {
-  "results": [
+  "posts": [
     {
-      "duration": { "value": 1, "unit": "year" },
-      "offset": { "value": 1, "unit": "month", "direction": "after" },
+      "setting": {
+        "duration": { "value": 1, "unit": "year" },
+        "offset": { "value": 1, "unit": "month", "direction": "after" }
+      },
       "post": {
         "link": "https://link.to.post1",
         "title": "rendered title1",
@@ -131,8 +133,10 @@ POST https://${your.endpoint}/date
       }
     },
     {
-      "duration": { "value": 3, "unit": "month" },
-      "offset": { "value": 2, "unit": "day", "direction": "before" },
+      "setting": {
+        "duration": { "value": 3, "unit": "month" },
+        "offset": { "value": 2, "unit": "day", "direction": "before" }
+      },
       "post": {
         "link": "https://link.to.post2",
         "title": "rendered title2",
@@ -140,7 +144,7 @@ POST https://${your.endpoint}/date
       }
     },
     {
-      "duration": { "value": 100, "unit": "day" },
+      "setting": { "duration": { "value": 100, "unit": "day" } },
       "post": {
         "link": "https://link.to.post3",
         "title": "rendered title3",

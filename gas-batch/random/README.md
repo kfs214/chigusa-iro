@@ -14,7 +14,7 @@
 
 ## Purpose
 
-Batch program running on GAS.
+Batch program running on GAS to pick posts randomly.
 
 ## Requirements
 
