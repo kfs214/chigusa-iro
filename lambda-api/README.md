@@ -10,41 +10,23 @@ It is designed to run on AWS Lambda and can be called from [gas-batch](../gas-ba
 - [lambda-api](#lambda-api)
   - [Purpose](#purpose)
   - [Table of Content](#table-of-content)
-  - [Common Response Sample](#common-response-sample)
   - [How to use](#how-to-use)
     - [Random](#random)
       - [Request Sample](#request-sample)
       - [Params](#params)
+      - [Response Sample](#response-sample)
     - [Date](#date)
       - [Request Body](#request-body)
       - [Request Sample](#request-sample-1)
         - [Endpoint](#endpoint)
         - [Body](#body)
+      - [Response Sample](#response-sample-1)
   - [For Local Development](#for-local-development)
     - [invoke:local](#invokelocal)
   - [Deployment](#deployment)
     - [Settings](#settings)
       - [Event Type](#event-type)
   - [Serverless - AWS Node.js Typescript](#serverless---aws-nodejs-typescript)
-
-## Common Response Sample
-
-<!-- TODO Content-Type: application/json -->
-
-```json
-{
-  "posts": [
-    {
-      "link": "https://link.to.post1",
-      "title": "rendered title1"
-    },
-    {
-      "link": "https://link.to.post2",
-      "title": "rendered title2"
-    }
-  ]
-}
-```
 
 ## How to use
 
@@ -69,12 +51,33 @@ GET https://${your.endpoint}/random?endpoint=https:/...&post-limit=3&categories=
 | post-limit | maximum posts to be picked                                                            | optional | 3                           |
 | categories | get posts in categories. without this option, filtering by categories to be disabled. | optional | 1                           |
 
+#### Response Sample
+
+```json
+{
+  "posts": [
+    {
+      "link": "https://link.to.post1",
+      "title": "rendered title1",
+      "excerpt": "excerpt / excerpt / excerpt"
+    },
+    {
+      "link": "https://link.to.post2",
+      "title": "rendered title2",
+      "excerpt": "excerpt / excerpt / excerpt"
+    }
+  ]
+}
+```
+
 ### Date
 
 The `date` function is used to retrieve posts based on specific dates, such as "posts from exactly 365 days ago".\
 It returns an array of posts.
 
 #### Request Body
+
+Content-Type: application/json
 
 | param      | description                                                                              | required | example                                                                                                                           |
 | ---------- | ---------------------------------------------------------------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------- |
@@ -92,7 +95,7 @@ POST https://${your.endpoint}/date
 
 ##### Body
 
-```JSON
+```js
 {
   "endpoint": "https://${your.wp.domain}/wp-json",
   "categories": ["1", "2", "3"],
@@ -111,6 +114,41 @@ POST https://${your.endpoint}/date
   ]
 }
 
+```
+
+#### Response Sample
+
+```json
+{
+  "results": [
+    {
+      "duration": { "value": 1, "unit": "year" },
+      "offset": { "value": 1, "unit": "month", "direction": "after" },
+      "post": {
+        "link": "https://link.to.post1",
+        "title": "rendered title1",
+        "excerpt": "excerpt / excerpt / excerpt"
+      }
+    },
+    {
+      "duration": { "value": 3, "unit": "month" },
+      "offset": { "value": 2, "unit": "day", "direction": "before" },
+      "post": {
+        "link": "https://link.to.post2",
+        "title": "rendered title2",
+        "excerpt": "excerpt / excerpt / excerpt"
+      }
+    },
+    {
+      "duration": { "value": 100, "unit": "day" },
+      "post": {
+        "link": "https://link.to.post3",
+        "title": "rendered title3",
+        "excerpt": "excerpt / excerpt / excerpt"
+      }
+    }
+  ]
+}
 ```
 
 ## For Local Development

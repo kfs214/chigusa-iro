@@ -22,7 +22,14 @@ export type WPError = {
   data?: WPErrorData;
 };
 
+export type WPPost = {
+  link: string;
+  title: { rendered: string };
+  excerpt: { rendered: string };
+};
+
 export type Post = {
   link: string;
   title: string;
+  excerpt: string;
 };
