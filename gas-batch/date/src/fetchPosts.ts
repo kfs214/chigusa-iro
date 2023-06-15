@@ -1,7 +1,7 @@
 // TODO categories での絞り込み
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function fetchPosts(settings: Setting[]): Post[] {
+function fetchPosts(settings: Setting[]): PostWithSetting[] {
   const wpEndpoint =
     PropertiesService.getScriptProperties().getProperty("wpEndpoint");
   if (!wpEndpoint) {
@@ -41,6 +41,6 @@ function fetchPosts(settings: Setting[]): Post[] {
     throw new Error(`Error: ${responseCode} - ${responseBodyStr}`);
   }
 
-  const posts = JSON.parse(responseBodyStr) as Post[];
+  const { posts } = JSON.parse(responseBodyStr) as { posts: PostWithSetting[] };
   return posts;
 }
